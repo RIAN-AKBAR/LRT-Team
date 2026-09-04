@@ -21,6 +21,87 @@
       overflow-x: hidden;
     }
 
+    /* ============================================================ */
+    /* LOADING SCREEN */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0d0d0d;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #loading-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #loading-screen .loader-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 60px rgba(250, 204, 21, 0.3);
+      margin-bottom: 2rem;
+      animation: pulseLogo 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulseLogo {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(250, 204, 21, 0.2); }
+      50% { transform: scale(1.05); box-shadow: 0 0 80px rgba(250, 204, 21, 0.5); }
+    }
+
+    .loader-spinner {
+      width: 70px;
+      height: 70px;
+      border: 4px solid rgba(250, 204, 21, 0.15);
+      border-top: 4px solid #facc15;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      position: relative;
+    }
+
+    .loader-spinner::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-bottom: 4px solid #fde047;
+      animation: spin 0.6s linear infinite reverse;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loader-text {
+      margin-top: 1.5rem;
+      color: #facc15;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      animation: blinkText 1.4s ease-in-out infinite;
+    }
+
+    @keyframes blinkText {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    /* ============================================================ */
+
     /* background efek kuning lemon */
     .bg-lemon {
       position: fixed;
@@ -114,6 +195,7 @@
       background: #facc15;
       padding: 4px;
       box-shadow: 0 0 20px #facc1580;
+      object-fit: cover;
     }
 
     .logo h1 {
@@ -263,7 +345,7 @@
     }
 
     /* ============================================================ */
-    /* BUTTON VIEW PROFILE - style seperti "Lihat Produk" di foto */
+    /* BUTTON VIEW PROFILE */
     .btn-profile {
       display: inline-flex;
       align-items: center;
@@ -665,10 +747,27 @@
         font-size: 0.8rem;
         padding: 0.4rem 1.2rem;
       }
+      #loading-screen .loader-logo {
+        width: 80px;
+        height: 80px;
+      }
+      .loader-spinner {
+        width: 50px;
+        height: 50px;
+      }
     }
   </style>
 </head>
 <body>
+
+<!-- ============================================================ -->
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <img src="logo.png" alt="LRT Logo" class="loader-logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23facc15\'/%3E%3Ctext x=\'20\' y=\'70\' font-size=\'48\' font-weight=\'900\' fill=\'%231a1a1a\' font-family=\'Inter\'%3EL%3C/text%3E%3Ctext x=\'55\' y=\'70\' font-size=\'40\' font-weight=\'800\' fill=\'%231a1a1a\' font-family=\'Inter\'%3ERT%3C/text%3E%3C/svg%3E'">
+  <div class="loader-spinner"></div>
+  <div class="loader-text">LOADING...</div>
+</div>
+<!-- ============================================================ -->
 
 <div class="bg-lemon"></div>
 <div class="particles" id="particles"></div>
@@ -678,7 +777,7 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="logo">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23facc15'/%3E%3Ctext x='20' y='70' font-size='48' font-weight='900' fill='%231a1a1a' font-family='Inter'%3EL%3C/text%3E%3Ctext x='55' y='70' font-size='40' font-weight='800' fill='%231a1a1a' font-family='Inter'%3ERT%3C/text%3E%3C/svg%3E" alt="LRT logo">
+      <img src="logo.png" alt="LRT Logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23facc15\'/%3E%3Ctext x=\'20\' y=\'70\' font-size=\'48\' font-weight=\'900\' fill=\'%231a1a1a\' font-family=\'Inter\'%3EL%3C/text%3E%3Ctext x=\'55\' y=\'70\' font-size=\'40\' font-weight=\'800\' fill=\'%231a1a1a\' font-family=\'Inter\'%3ERT%3C/text%3E%3C/svg%3E'">
       <h1>Lemon Racing</h1>
     </div>
     <div class="nav-links">
@@ -696,7 +795,7 @@
     <p class="sub-text">
       <i class="fas fa-hand-point-right"></i> Klik disini untuk mengisi formulir pendaftaran
     </p>
-    <a href="https://discord.gg/your-invite" target="_blank" class="btn-modern btn-modern-discord">
+    <a href="https://discord.gg/lemonracingteam" target="_blank" class="btn-modern btn-modern-discord">
       <i class="fab fa-discord"></i> BERGABUNG SEKARANG
     </a>
 
@@ -789,6 +888,1014 @@
 </div>
 
 <script>
+  // ============================================================
+  // HIDE LOADING SCREEN
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      document.getElementById('loading-screen').classList.add('hide');
+    }, 1200);
+  });
+
+  // ============================================================
+  // data produk
+  const products = [
+    { name: "TSHIRT V1", link: "https://www.roblox.com/share?code=3c050e584d55474aac868264fe5c2268&type=AvatarItemDetails", img: "https://tr.rbxcdn.com/180DAY-cf25c07c64e007812c9baee4d57c51c6/420/420/Shirt/Webp/noFilter" },
+    { name: "TSHIRT V2", link: "https://www.roblox.com/share?code=e5dea973e1c9a947911921f8a84b4f48&type=AvatarItemDetails", img: "https://tr.rbxcdn.com/180DAY-4ee6b2e812c7d9270c50e7042670fb42/420/420/Shirt/Webp/noFilter" },
+    { name: "BAJU JOKI V1", link: "https://www.roblox.com/share?code=727546b874c3434cba5f8ba8dc4e636c&type=AvatarItemDetails", img: "https://tr.rbxcdn.com/180DAY-03bb4d76ba9409d7df2dbd12ace9310b/420/420/Shirt/Webp/noFilter" },
+    { name: "BAJU JOKI V2", link: "https://www.roblox.com/share?code=444042c9040b3346bba341806309cd44&type=AvatarItemDetails", img: "https://tr.rbxcdn.com/180DAY-812c20beaf1ee31c49812521ab9fccc9/420/420/Shirt/Webp/noFilter" },
+    { name: "BAJU joki v3", link: "https://www.roblox.com/catalog/122675096679025", img: "https://tr.rbxcdn.com/180DAY-69dbd7272738473931132d85228ebf02/420/420/Shirt/Webp/noFilter" },
+    { name: "CELANA pasangan baju joki v3", link: "https://www.roblox.com/catalog/113070154238482", img: "https://tr.rbxcdn.com/180DAY-1fd9194f3d0cfa98e3305627ea4ab139/420/420/Pants/Webp/noFilter" },
+    { name: "TSHIRT V3", link: "https://www.roblox.com/share?code=c0a27a7446737748aaf7cf426f46d0b0&type=AvatarItemDetails", img: "https://tr.rbxcdn.com/180DAY-cf0274ecc2e8ddc823dbc1948f963ba4/420/420/Shirt/Webp/noFilter" },
+    { name: "celana pasangan baju TSHIRT V3", link: "https://www.roblox.com/share?code=e4835ed669af8c40924b257cda703611&type=AvatarItemDetails", img: "https://tr.rbxcdn.com/180DAY-e47bde4ff9424ef97bd1aa91227f7c92/420/420/Pants/Webp/noFilter" },
+    { name: "RELEASED HOODIE TEMA LRT V1", link: "https://www.roblox.com/share?code=30c591a2a2f4ce43b8476b5f61d37080&type=AvatarItemDetails", img: "https://tr.rbxcdn.com/180DAY-7e9efa0304ef2c02ca93e733034eca5e/420/420/Shirt/Webp/noFilter" },
+    { name: "TSHIRT V5", link: "https://www.roblox.com/share?code=21758e9ce5d82546a1df0e852e628dcf&type=AvatarItemDetails", img: "https://tr.rbxcdn.com/180DAY-93b40a96f89f22553df4e37b7f38d6bf/420/420/Shirt/Webp/noFilter" },
+    { name: "CELANA PASANGAN TSHIRT V5", link: "https://www.roblox.com/share?code=f930d05826a5d241aafb338967f6baa9&type=AvatarItemDetails", img: "https://tr.rbxcdn.com/180DAY-d0a387f3eca3a6b79480add398af9a26/420/420/Pants/Webp/noFilter" },
+    { name: "T-SHIRT V6 SANTAI", link: "https://www.roblox.com/catalog/91909303281488", img: "https://tr.rbxcdn.com/180DAY-d7e39e1dea8060dcfa6df2266f11c674/420/420/Shirt/Webp/noFilter" },
+    { name: "T-SHIRT TEMA KEMERDEKAAN", link: "https://www.roblox.com/catalog/98640409504991", img: "https://tr.rbxcdn.com/180DAY-68c40d51a235adce6c4136e3e5f321f4/420/420/Shirt/Webp/noFilter" },
+    { name: "RELEASE TSHIRT LRT PANJANG V1", link: "https://www.roblox.com/id/catalog/98292977072253/LRT", img: "https://tr.rbxcdn.com/180DAY-85a3fa7752ff72fe4b678eca01b3215c/420/420/Shirt/Webp/noFilter" }
+  ];
+
+  function renderProducts(arr) {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = '';
+    arr.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+        <h4>${p.name}</h4>
+        <a href="${p.link}" target="_blank">Lihat Produk</a>
+      `;
+      grid.appendChild(card);
+    });
+  }
+  renderProducts(products);
+
+  window.filterProducts = function() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = products.filter(p => p.name.toLowerCase().includes(input));
+    renderProducts(filtered);
+  };
+
+  // toggle untuk detail join (tutorial & rules)
+  window.toggleJoinDetail = function() {
+    const detail = document.getElementById('joinDetail');
+    detail.classList.toggle('show');
+    const btn = document.querySelector('.join-detail-toggle');
+    if (detail.classList.contains('show')) {
+      btn.innerHTML = '<i class="fas fa-chevron-up"></i> Sembunyikan Tutorial & Rules';
+    } else {
+      btn.innerHTML = '<i class="fas fa-chevron-down"></i> Lihat Tutorial & Rules';
+    }
+  };
+
+  // team data
+  const team = [
+    { name: "RammzxLRT", link: "https://www.roblox.com/id/users/8365881178", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3EE0381E7F6DD4BB90678F4F7B140EE6-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "OWNER👑" },
+    { name: "asepmohawk", link: "https://www.roblox.com/id/users/8137647477", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-071226B765E32A0D874557234B5897D0-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "CO-OWNER💎" },
+    { name: "katukk_27", link: "https://www.roblox.com/id/users/10644696116", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-D631DC0322D6B78E4004FE772B1707A8-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "ADMIN SR/DONATUR 💲" },
+    { name: "yannn", link: "https://www.roblox.com/id/users/8623297815", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-771336FD267654E7904660BE38FD96A4-Png-Background/150/150/AvatarHeadshot/Webp/noFilter", role: "ADMIN JR/STAFF TIKET👨‍🔧" },
+    { name: "zaizarr", link: "https://www.roblox.com/id/users/5283804852", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-2B1E66C212928CE8D64146F7720A9074-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "SECURITY WA/DC🔐" },
+    { name: "jawirasalngawi", link: "https://www.roblox.com/id/users/10727505268", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-7B7D5C58FC4521044CDAA9A22C9220AF-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "ADMIN JR⭐" },
+    { name: "deimos", link: "https://www.roblox.com/id/users/3564828451", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-1FF18B23876EA47F9B4002A771687436-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "ADMIN JR/STAFF TIKET👨‍🔧" },
+    { name: "PEDZZPRJCT02", link: "https://www.roblox.com/id/users/8853562325", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-67AE7E41812A0ACE482C4013503E5717-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "ADMIN JR/PLENGER LRT🤓" },
+    { name: "scrodilir92", link: "https://www.roblox.com/id/users/7353918304", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-E3F013133C4A3E9917D5BB8E788F76F7-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "ADMIN SR⚡" },
+    { name: "pqzgn", link: "https://www.roblox.com/id/users/8640389076", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-12ADF3EFC8B649F765F18FD4EB12205A-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "ADMIN SR/PENGGURUS GB⚡" },
+    { name: "siEll7777", link: "https://www.roblox.com/id/users/8080487317", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-87450A03C5433B83A2FB8732D82B5153-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "ADMIN/STAFF SR⚡" },
+    { name: "Nanav", link: "https://www.roblox.com/id/users/2617253374", avatar: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-6269DCD047E01ABD78D3F725EB1E6948-Png/150/150/AvatarHeadshot/Webp/noFilter", role: "SUPPORT" }
+  ];
+
+  const teamGrid = document.getElementById('teamGrid');
+  team.forEach(m => {
+    const card = document.createElement('div');
+    card.className = 'team-card';
+    card.innerHTML = `
+      <img src="${m.avatar}" alt="${m.name}" loading="lazy">
+      <h4>${m.name}</h4>
+      <div class="role">${m.role}</div>
+      <a href="${m.link}" target="_blank" class="btn-profile">
+        <i class="fas fa-external-link-alt"></i> Lihat Profil
+      </a>
+    `;
+    teamGrid.appendChild(card);
+  });
+
+  // particles
+  (function createParticles() {
+    const container = document.getElementById('particles');
+    for (let i=0; i<25; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.width = (Math.random() * 20 + 6) + 'px';
+      p.style.height = p.style.width;
+      p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      container.appendChild(p);
+    }
+  })();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lemon Racing Team · LRT</title>
+  <!-- Font & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #0d0d0d;
+      color: #f5f0e6;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================ */
+    /* LOADING SCREEN */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0d0d0d;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #loading-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #loading-screen .loader-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 60px rgba(250, 204, 21, 0.3);
+      margin-bottom: 2rem;
+      animation: pulseLogo 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulseLogo {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(250, 204, 21, 0.2); }
+      50% { transform: scale(1.05); box-shadow: 0 0 80px rgba(250, 204, 21, 0.5); }
+    }
+
+    .loader-spinner {
+      width: 70px;
+      height: 70px;
+      border: 4px solid rgba(250, 204, 21, 0.15);
+      border-top: 4px solid #facc15;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      position: relative;
+    }
+
+    .loader-spinner::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-bottom: 4px solid #fde047;
+      animation: spin 0.6s linear infinite reverse;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loader-text {
+      margin-top: 1.5rem;
+      color: #facc15;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      animation: blinkText 1.4s ease-in-out infinite;
+    }
+
+    @keyframes blinkText {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    /* ============================================================ */
+
+    /* background efek kuning lemon */
+    .bg-lemon {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(circle at 20% 30%, #facc15 0%, #eab308 40%, #0d0d0d 80%);
+      opacity: 0.25;
+    }
+
+    .bg-lemon::after {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255, 215, 0, 0.08) 40px, rgba(255, 215, 0, 0.08) 80px);
+      animation: shimmer 18s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-10%) translateY(-10%) rotate(0deg); }
+      100% { transform: translateX(10%) translateY(10%) rotate(5deg); }
+    }
+
+    /* partikel lemon kecil */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #fde047;
+      border-radius: 50%;
+      filter: blur(1px);
+      opacity: 0.2;
+      animation: floatParticle 12s infinite alternate ease-in-out;
+    }
+
+    @keyframes floatParticle {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.1; }
+      100% { transform: translate(40px, -80px) scale(1.8); opacity: 0.4; }
+    }
+
+    /* container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 1rem;
+      position: relative;
+      backdrop-filter: blur(2px);
+    }
+
+    /* header / logo */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      background: rgba(20, 18, 10, 0.7);
+      backdrop-filter: blur(8px);
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      border: 1px solid #facc1530;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      margin-bottom: 2rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #facc15;
+      padding: 4px;
+      box-shadow: 0 0 20px #facc1580;
+      object-fit: cover;
+    }
+
+    .logo h1 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fde047, #facc15);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links a {
+      color: #e5e0d0;
+      margin-left: 1.8rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a:hover {
+      color: #facc15;
+      border-bottom-color: #facc15;
+    }
+
+    /* ============================================================ */
+    /* CARD BLOCK STYLE */
+    .card-block {
+      background: linear-gradient(145deg, #1f1c16, #14120e);
+      border: 1px solid #facc1530;
+      border-radius: 40px;
+      padding: 2rem 2.5rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px #00000080;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+      transition: 0.3s ease;
+    }
+
+    .card-block:hover {
+      border-color: #facc1560;
+      box-shadow: 0 20px 70px #facc1510;
+    }
+
+    .card-block h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #facc15;
+      letter-spacing: 1px;
+      margin-bottom: 0.3rem;
+    }
+
+    .card-block .sub-text {
+      color: #b8b0a0;
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+    }
+
+    .card-block .sub-text i {
+      color: #facc15;
+      margin-right: 6px;
+    }
+
+    /* MODERN BUTTON STYLE */
+    .btn-modern {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #facc15, #f59e0b);
+      border: none;
+      padding: 0.85rem 2.8rem;
+      border-radius: 60px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #0d0d0d;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(250, 204, 21, 0.3);
+      letter-spacing: 0.3px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .btn-modern::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn-modern:hover::before {
+      left: 100%;
+    }
+
+    .btn-modern:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 8px 40px rgba(250, 204, 21, 0.5);
+      background: linear-gradient(135deg, #fde047, #facc15);
+    }
+
+    .btn-modern:active {
+      transform: scale(0.97);
+    }
+
+    .btn-modern i {
+      font-size: 1.2rem;
+    }
+
+    .btn-modern-discord {
+      background: linear-gradient(135deg, #5865F2, #4752C4);
+      box-shadow: 0 4px 20px rgba(88, 101, 242, 0.3);
+    }
+
+    .btn-modern-discord:hover {
+      background: linear-gradient(135deg, #6d7af5, #5865F2);
+      box-shadow: 0 8px 40px rgba(88, 101, 242, 0.5);
+    }
+
+    .btn-modern-donate {
+      background: linear-gradient(135deg, #f472b6, #ec4899);
+      box-shadow: 0 4px 20px rgba(236, 72, 153, 0.3);
+    }
+
+    .btn-modern-donate:hover {
+      background: linear-gradient(135deg, #f9a8d4, #f472b6);
+      box-shadow: 0 8px 40px rgba(236, 72, 153, 0.5);
+    }
+
+    .btn-modern-gallery {
+      background: linear-gradient(135deg, #34d399, #10b981);
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-modern-gallery:hover {
+      background: linear-gradient(135deg, #6ee7b7, #34d399);
+      box-shadow: 0 8px 40px rgba(16, 185, 129, 0.5);
+    }
+
+    /* ============================================================ */
+    /* BUTTON VIEW PROFILE */
+    .btn-profile {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #facc15;
+      color: #0d0d0d;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.5rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      max-width: 160px;
+      margin: 0 auto;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-profile:hover {
+      background: #fde047;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(250, 204, 21, 0.4);
+    }
+
+    .btn-profile:active {
+      transform: scale(0.96);
+    }
+
+    .btn-profile i {
+      font-size: 0.9rem;
+    }
+    /* ============================================================ */
+
+    /* detail join (tutorial + rules) di dalam accordion */
+    .join-detail-toggle {
+      margin-top: 1.2rem;
+      color: #facc15;
+      background: transparent;
+      border: 1px solid #facc1530;
+      padding: 0.4rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.85rem;
+    }
+
+    .join-detail-toggle:hover {
+      background: #facc1520;
+      border-color: #facc15;
+    }
+
+    .join-detail {
+      margin-top: 1.5rem;
+      text-align: left;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .join-detail.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .tutorial {
+      background: #12100c;
+      padding: 1.2rem 1.5rem;
+      border-radius: 24px;
+      border-left: 6px solid #facc15;
+      margin-bottom: 1.2rem;
+    }
+
+    .tutorial h3 {
+      color: #facc15;
+      margin-bottom: 0.6rem;
+      font-size: 1.1rem;
+    }
+
+    .tutorial ol {
+      padding-left: 1.2rem;
+      line-height: 2;
+      color: #d6d0bd;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .tutorial ol li {
+      margin-bottom: 2px;
+    }
+
+    .rules-box {
+      background: #0f0e0b;
+      padding: 1rem 1.5rem;
+      border-radius: 24px;
+      border: 1px solid #facc1520;
+    }
+
+    .rules-box p {
+      font-weight: 700;
+      color: #facc15;
+      font-size: 1rem;
+    }
+
+    .rules-box ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.2rem;
+      padding-top: 0.5rem;
+      list-style: none;
+    }
+
+    .rules-box ul li {
+      background: #25221b;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      border: 1px solid #facc1510;
+    }
+
+    /* spacing untuk card blocks */
+    .block-spacing {
+      margin-bottom: 2rem;
+    }
+    /* ============================================================ */
+
+    /* search */
+    .search-section {
+      margin: 1.5rem 0 2.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-box {
+      background: #1e1c16;
+      border: 1px solid #facc1540;
+      border-radius: 60px;
+      padding: 0.4rem 0.4rem 0.4rem 1.8rem;
+      display: flex;
+      align-items: center;
+      max-width: 500px;
+      width: 100%;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 20px #facc1510;
+    }
+
+    .search-box i {
+      color: #facc15;
+      font-size: 1.2rem;
+      margin-right: 10px;
+    }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      padding: 0.8rem 0;
+      width: 100%;
+      color: #f5f0e6;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-box input::placeholder {
+      color: #9a927a;
+      font-weight: 400;
+    }
+
+    .search-box button {
+      background: #facc15;
+      border: none;
+      padding: 0.6rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 700;
+      color: #0d0d0d;
+      cursor: pointer;
+      transition: 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .search-box button:hover {
+      background: #fde047;
+      transform: scale(1.02);
+      box-shadow: 0 0 20px #facc1570;
+    }
+
+    /* product grid */
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title i {
+      color: #facc15;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .product-card {
+      background: #1a1813;
+      border-radius: 28px;
+      padding: 1.2rem 0.8rem 1rem;
+      text-align: center;
+      border: 1px solid #facc1520;
+      transition: 0.25s ease;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      border-color: #facc15;
+      box-shadow: 0 10px 30px #facc1520;
+    }
+
+    .product-card img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 20px;
+      background: #2a261e;
+    }
+
+    .product-card h4 {
+      margin: 0.6rem 0 0.3rem;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #f5f0e6;
+    }
+
+    .product-card a {
+      display: inline-block;
+      margin-top: 8px;
+      background: #facc15;
+      color: #0d0d0d;
+      font-weight: 700;
+      padding: 0.4rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: 0.2s;
+    }
+
+    .product-card a:hover {
+      background: #fde047;
+      box-shadow: 0 0 20px #facc1560;
+    }
+
+    /* donation & gallery block di bawah produk */
+    .action-blocks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin: 2.5rem 0 1rem;
+    }
+
+    .action-blocks .card-block {
+      flex: 1 1 300px;
+      max-width: 500px;
+      margin: 0;
+    }
+
+    /* profile team */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.8rem;
+      margin: 2rem 0 3rem;
+    }
+
+    .team-card {
+      background: #1a1813;
+      border-radius: 32px;
+      padding: 1.5rem 0.8rem 1.2rem;
+      text-align: center;
+      border: 1px solid #facc1520;
+      transition: 0.2s;
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .team-card:hover {
+      border-color: #facc15;
+      transform: translateY(-6px);
+    }
+
+    .team-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #facc15;
+      margin-bottom: 6px;
+      background: #2a261e;
+    }
+
+    .team-card h4 {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #f5f0e6;
+    }
+
+    .team-card .role {
+      color: #facc15;
+      font-weight: 600;
+      font-size: 0.75rem;
+      background: #25221b;
+      display: inline-block;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      margin: 2px 0 4px;
+    }
+
+    /* footer */
+    .footer {
+      margin-top: 4rem;
+      padding: 2rem 0 1rem;
+      border-top: 1px solid #facc1520;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .social-links a {
+      color: #cac3b0;
+      font-size: 1.4rem;
+      transition: 0.2s;
+    }
+
+    .social-links a:hover {
+      color: #facc15;
+      transform: scale(1.2);
+    }
+
+    .footer small {
+      color: #8a8270;
+    }
+
+    /* responsive */
+    @media (max-width: 700px) {
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .nav-links a {
+        margin: 0 0.8rem;
+        font-size: 0.85rem;
+      }
+      .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+      .card-block {
+        padding: 1.5rem 1.2rem;
+        margin: 0 0.5rem;
+      }
+      .card-block h2 {
+        font-size: 1.4rem;
+      }
+      .btn-modern {
+        padding: 0.7rem 2rem;
+        font-size: 0.95rem;
+      }
+      .action-blocks {
+        flex-direction: column;
+        align-items: center;
+      }
+      .action-blocks .card-block {
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: 500px;
+      }
+      .btn-profile {
+        max-width: 140px;
+        font-size: 0.8rem;
+        padding: 0.4rem 1.2rem;
+      }
+      #loading-screen .loader-logo {
+        width: 80px;
+        height: 80px;
+      }
+      .loader-spinner {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <img src="logo.png" alt="LRT Logo" class="loader-logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23facc15\'/%3E%3Ctext x=\'20\' y=\'70\' font-size=\'48\' font-weight=\'900\' fill=\'%231a1a1a\' font-family=\'Inter\'%3EL%3C/text%3E%3Ctext x=\'55\' y=\'70\' font-size=\'40\' font-weight=\'800\' fill=\'%231a1a1a\' font-family=\'Inter\'%3ERT%3C/text%3E%3C/svg%3E'">
+  <div class="loader-spinner"></div>
+  <div class="loader-text">LOADING...</div>
+</div>
+<!-- ============================================================ -->
+
+<div class="bg-lemon"></div>
+<div class="particles" id="particles"></div>
+
+<div class="container">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="logo.png" alt="LRT Logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23facc15\'/%3E%3Ctext x=\'20\' y=\'70\' font-size=\'48\' font-weight=\'900\' fill=\'%231a1a1a\' font-family=\'Inter\'%3EL%3C/text%3E%3Ctext x=\'55\' y=\'70\' font-size=\'40\' font-weight=\'800\' fill=\'%231a1a1a\' font-family=\'Inter\'%3ERT%3C/text%3E%3C/svg%3E'">
+      <h1>Lemon Racing</h1>
+    </div>
+    <div class="nav-links">
+      <a href="#">Beranda</a>
+      <a href="#produk">Produk</a>
+      <a href="#tim">Tim</a>
+      <a href="gallery.html" target="_blank"><i class="fas fa-images"></i> Galeri</a>
+    </div>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- DAFTAR MEMBER - card block (di atas search) -->
+  <div class="card-block block-spacing">
+    <h2><i class="fas fa-user-plus"></i> DAFTAR MENJADI MEMBER</h2>
+    <p class="sub-text">
+      <i class="fas fa-hand-point-right"></i> Klik disini untuk mengisi formulir pendaftaran
+    </p>
+    <a href="https://discord.gg/lemonracingteam" target="_blank" class="btn-modern btn-modern-discord">
+      <i class="fab fa-discord"></i> BERGABUNG SEKARANG
+    </a>
+
+    <!-- tombol toggle untuk lihat tutorial & rules -->
+    <button class="join-detail-toggle" onclick="toggleJoinDetail()">
+      <i class="fas fa-chevron-down"></i> Lihat Tutorial & Rules
+    </button>
+
+    <div class="join-detail" id="joinDetail">
+      <div class="tutorial">
+        <h3><i class="fas fa-list-ol"></i> TUTORIAL JOIN LRT</h3>
+        <ol>
+          <li>KALIAN MASUK DC LRT</li>
+          <li>KALIAN PENCET ticket verify</li>
+          <li>KALIAN PENCET CREATE TICKET</li>
+          <li>KALIAN KIRIM SS BAJU KALIAN YANG UDAH KALIAN BELI</li>
+          <li>KALIAN DI KASIH FORMAT, ABIS ITU KALIAN ISI</li>
+          <li>KALIAN DI TANYAIN MAU VERIFY KAPAN</li>
+          <li>DI VERIFY WAJIB ON CAM</li>
+          <li>KALIAN DIKASIH LINK GRUB WA DAN DONE</li>
+        </ol>
+      </div>
+      <div class="rules-box">
+        <p><i class="fas fa-shield-alt"></i> Syarat & Rules</p>
+        <ul>
+          <li>WAJIB INTRO KALAU JOIN</li><li>GOOD ATTITUDE</li><li>RAJIN NIMBRUNG</li>
+          <li>BERCANDA SEWAJARNYA</li><li>GAUSA NGEHINA SATU SAMA LAIN</li><li>NO DB</li>
+          <li>NO KUTU LONCAT</li><li>UMUR 14+</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- Search -->
+  <div class="search-section">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Cari produk LRT ..." id="searchInput">
+      <button onclick="filterProducts()"><i class="fas fa-arrow-right"></i> Cari</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- Products -->
+  <div id="produk" class="section-title"><i class="fas fa-tshirt"></i> Koleksi LRT</div>
+  <div class="product-grid" id="productGrid"></div>
+
+  <!-- ============================================================ -->
+  <!-- DONASI & GALERI - di bawah produk -->
+  <div class="action-blocks">
+    <!-- DONASI -->
+    <div class="card-block">
+      <h2><i class="fas fa-hand-holding-heart"></i> DUKUNG KAMI</h2>
+      <p class="sub-text">
+        <i class="fas fa-coffee"></i> Donasi untuk mendukung komunitas LRT
+      </p>
+      <a href="https://tr.ee/5W1ZBEm29S" target="_blank" class="btn-modern btn-modern-donate">
+        <i class="fas fa-heart"></i> DONASI SEKARANG
+      </a>
+    </div>
+
+    <!-- GALERI -->
+    <div class="card-block">
+      <h2><i class="fas fa-images"></i> GALERI LRT</h2>
+      <p class="sub-text">
+        <i class="fas fa-camera"></i> Lihat momen-momen seru komunitas kami
+      </p>
+      <a href="gallery.html" target="_blank" class="btn-modern btn-modern-gallery">
+        <i class="fas fa-arrow-right"></i> BUKA GALERI
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TEAM -->
+  <div id="tim" class="section-title"><i class="fas fa-users"></i> Profile Team</div>
+  <div class="team-grid" id="teamGrid"></div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="social-links">
+      <a href="https://www.tiktok.com/@lrt.lemon.racing?_r=1&_t=ZS-99QGyHQ6g4O" target="_blank"><i class="fab fa-tiktok"></i></a>
+      <a href="https://whatsapp.com/channel/0029VbBvoWU4tRrsdbYjxO0f" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://youtube.com/@lrt.lemon.racing?si=62xZioPEIK4LbEDH" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.instagram.com/lrt.lemon.racing?igsi=MWhvdDNjNXh4aDFmdA==" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+    <small>© 2026 Lemon Racing Team — LRT</small>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // HIDE LOADING SCREEN
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      document.getElementById('loading-screen').classList.add('hide');
+    }, 1200);
+  });
+
+  // ============================================================
   // data produk
   const products = [
     { name: "TSHIRT V1", link: "https://www.roblox.com/share?code=3c050e584d55474aac868264fe5c2268&type=AvatarItemDetails", img: "https://tr.rbxcdn.com/180DAY-cf25c07c64e007812c9baee4d57c51c6/420/420/Shirt/Webp/noFilter" },
