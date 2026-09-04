@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galeri · Lemon Racing Team</title>
+  <!-- Font & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #0d0d0d;
+      color: #f5f0e6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* background efek kuning lemon */
+    .bg-lemon {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(circle at 20% 30%, #facc15 0%, #eab308 40%, #0d0d0d 80%);
+      opacity: 0.25;
+    }
+
+    .bg-lemon::after {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255, 215, 0, 0.08) 40px, rgba(255, 215, 0, 0.08) 80px);
+      animation: shimmer 18s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-10%) translateY(-10%) rotate(0deg); }
+      100% { transform: translateX(10%) translateY(10%) rotate(5deg); }
+    }
+
+    /* partikel lemon kecil */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #fde047;
+      border-radius: 50%;
+      filter: blur(1px);
+      opacity: 0.2;
+      animation: floatParticle 12s infinite alternate ease-in-out;
+    }
+
+    @keyframes floatParticle {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.1; }
+      100% { transform: translate(40px, -80px) scale(1.8); opacity: 0.4; }
+    }
+
+    /* container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 2rem;
+      position: relative;
+      backdrop-filter: blur(2px);
+    }
+
+    /* header / navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      background: rgba(20, 18, 10, 0.7);
+      backdrop-filter: blur(8px);
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      border: 1px solid #facc1530;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      margin-bottom: 2.5rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #facc15;
+      padding: 4px;
+      box-shadow: 0 0 20px #facc1580;
+    }
+
+    .logo h1 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fde047, #facc15);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links a {
+      color: #e5e0d0;
+      margin-left: 1.8rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a:hover {
+      color: #facc15;
+      border-bottom-color: #facc15;
+    }
+
+    .nav-links a.active {
+      color: #facc15;
+      border-bottom-color: #facc15;
+    }
+
+    /* ============================================================ */
+    /* HEADER GALERI */
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem 1rem;
+    }
+
+    .gallery-header h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fde047, #facc15);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .gallery-header p {
+      color: #b8b0a0;
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+
+    .gallery-header p i {
+      color: #facc15;
+      margin-right: 6px;
+    }
+
+    /* ============================================================ */
+    /* GALERI GRID */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 3rem;
+    }
+
+    .gallery-item {
+      background: #1a1813;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid #facc1520;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      aspect-ratio: 1/1;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: #facc15;
+      box-shadow: 0 20px 60px rgba(250, 204, 21, 0.15);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    /* overlay pada gallery item */
+    .gallery-item .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem 1.5rem 1.5rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .gallery-item:hover .overlay {
+      opacity: 1;
+    }
+
+    .gallery-item .overlay span {
+      color: #f5f0e6;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    .gallery-item .overlay i {
+      color: #facc15;
+      font-size: 1.2rem;
+    }
+
+    /* ============================================================ */
+    /* LIGHTBOX / MODAL */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .lightbox.show {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 20px;
+      border: 2px solid #facc1540;
+      box-shadow: 0 0 80px rgba(250, 204, 21, 0.15);
+      animation: zoomIn 0.4s ease;
+    }
+
+    @keyframes zoomIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .lightbox .close-btn {
+      position: absolute;
+      top: 2rem;
+      right: 2.5rem;
+      color: #f5f0e6;
+      font-size: 2.5rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+      background: rgba(255,255,255,0.05);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #facc1530;
+    }
+
+    .lightbox .close-btn:hover {
+      background: rgba(250, 204, 21, 0.15);
+      transform: rotate(90deg);
+      border-color: #facc15;
+    }
+
+    .lightbox .counter {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #b8b0a0;
+      font-size: 0.9rem;
+      background: rgba(0,0,0,0.6);
+      padding: 0.5rem 1.5rem;
+      border-radius: 40px;
+      border: 1px solid #facc1520;
+    }
+
+    .lightbox .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #f5f0e6;
+      font-size: 2.5rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+      background: rgba(255,255,255,0.05);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #facc1530;
+    }
+
+    .lightbox .nav-btn:hover {
+      background: rgba(250, 204, 21, 0.15);
+      border-color: #facc15;
+    }
+
+    .lightbox .nav-btn.prev {
+      left: 2rem;
+    }
+
+    .lightbox .nav-btn.next {
+      right: 2rem;
+    }
+
+    /* ============================================================ */
+    /* BACK BUTTON */
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #f5f0e6;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.7rem 1.8rem;
+      border-radius: 60px;
+      border: 1px solid #facc1530;
+      transition: 0.3s ease;
+      margin-bottom: 2rem;
+    }
+
+    .back-button:hover {
+      background: rgba(250, 204, 21, 0.1);
+      border-color: #facc15;
+      color: #facc15;
+      transform: translateX(-5px);
+    }
+
+    .back-button i {
+      font-size: 1rem;
+    }
+
+    /* ============================================================ */
+    /* FOOTER */
+    .footer {
+      margin-top: 3rem;
+      padding: 2rem 0 1rem;
+      border-top: 1px solid #facc1520;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .social-links a {
+      color: #cac3b0;
+      font-size: 1.4rem;
+      transition: 0.2s;
+    }
+
+    .social-links a:hover {
+      color: #facc15;
+      transform: scale(1.2);
+    }
+
+    .footer small {
+      color: #8a8270;
+    }
+
+    /* ============================================================ */
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 0.8rem 1.2rem;
+      }
+      .nav-links a {
+        margin: 0 0.8rem;
+        font-size: 0.85rem;
+      }
+      .gallery-header h1 {
+        font-size: 2.2rem;
+      }
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1rem;
+      }
+      .lightbox img {
+        max-width: 95%;
+        max-height: 70vh;
+      }
+      .lightbox .nav-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.5rem;
+      }
+      .lightbox .nav-btn.prev {
+        left: 0.5rem;
+      }
+      .lightbox .nav-btn.next {
+        right: 0.5rem;
+      }
+      .lightbox .close-btn {
+        top: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1.8rem;
+      }
+      .gallery-item .overlay {
+        padding: 1.2rem 1rem 1rem;
+      }
+      .gallery-item .overlay span {
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.8rem;
+      }
+      .container {
+        padding: 1rem 1rem 1rem;
+      }
+      .gallery-header h1 {
+        font-size: 1.8rem;
+      }
+      .back-button {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-lemon"></div>
+<div class="particles" id="particles"></div>
+
+<div class="container">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23facc15'/%3E%3Ctext x='20' y='70' font-size='48' font-weight='900' fill='%231a1a1a' font-family='Inter'%3EL%3C/text%3E%3Ctext x='55' y='70' font-size='40' font-weight='800' fill='%231a1a1a' font-family='Inter'%3ERT%3C/text%3E%3C/svg%3E" alt="LRT logo">
+      <h1>Lemon Racing</h1>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Beranda</a>
+      <a href="index.html#produk">Produk</a>
+      <a href="index.html#tim">Tim</a>
+      <a href="#" class="active"><i class="fas fa-images"></i> Galeri</a>
+    </div>
+  </nav>
+
+  <!-- Back Button -->
+  <a href="index.html" class="back-button">
+    <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+  </a>
+
+  <!-- Gallery Header -->
+  <div class="gallery-header">
+    <h1><i class="fas fa-camera-retro"></i> Galeri LRT</h1>
+    <p><i class="fas fa-image"></i> Koleksi momen-momen seru Lemon Racing Team</p>
+  </div>
+
+  <!-- Gallery Grid -->
+  <div class="gallery-grid" id="galleryGrid"></div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="social-links">
+      <a href="https://www.tiktok.com/@lrt.lemon.racing?_r=1&_t=ZS-99QGyHQ6g4O" target="_blank"><i class="fab fa-tiktok"></i></a>
+      <a href="https://whatsapp.com/channel/0029VbBvoWU4tRrsdbYjxO0f" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://youtube.com/@lrt.lemon.racing?si=62xZioPEIK4LbEDH" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.instagram.com/lrt.lemon.racing?igsi=MWhvdDNjNXh4aDFmdA==" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+    <small>© 2026 Lemon Racing Team — LRT</small>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- LIGHTBOX / MODAL -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="close-btn" onclick="closeLightbox()">
+    <i class="fas fa-times"></i>
+  </button>
+  <button class="nav-btn prev" onclick="changeImage(-1)">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <img id="lightboxImg" src="" alt="Galeri LRT">
+  <button class="nav-btn next" onclick="changeImage(1)">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+  <div class="counter" id="counter">1 / 1</div>
+</div>
+
+<script>
+  // ============================================================
+  // DATA GALERI
+  const galleryImages = [
+    "https://files.catbox.moe/5xlp6d.jpg",
+    "https://files.catbox.moe/ryhuq5.jpg",
+    "https://files.catbox.moe/ne6i5a.jpg",
+    "https://files.catbox.moe/6vcum6.jpg",
+    "https://files.catbox.moe/fpprak.jpg",
+    "https://files.catbox.moe/1uer2w.jpg",
+    "https://files.catbox.moe/empws8.jpg",
+    "https://files.catbox.moe/frm19q.jpg",
+    "https://files.catbox.moe/xj5r77.jpg",
+    "https://files.catbox.moe/paktme.jpg",
+    "https://files.catbox.moe/99a3v1.jpg",
+    "https://files.catbox.moe/ghrovx.jpg"
+  ];
+
+  // ============================================================
+  // RENDER GALERI
+  function renderGallery() {
+    const grid = document.getElementById('galleryGrid');
+    grid.innerHTML = '';
+    galleryImages.forEach((img, index) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.innerHTML = `
+        <img src="${img}" alt="Galeri LRT ${index + 1}" loading="lazy">
+        <div class="overlay">
+          <span><i class="fas fa-camera"></i> Foto ${index + 1}</span>
+          <i class="fas fa-expand"></i>
+        </div>
+      `;
+      item.addEventListener('click', () => openLightbox(index));
+      grid.appendChild(item);
+    });
+  }
+
+  // ============================================================
+  // LIGHTBOX
+  let currentIndex = 0;
+
+  function openLightbox(index) {
+    currentIndex = index;
+    const lightbox = document.getElementById('lightbox');
+    const img = document.getElementById('lightboxImg');
+    img.src = galleryImages[currentIndex];
+    document.getElementById('counter').textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+    lightbox.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('lightbox').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  function changeImage(direction) {
+    currentIndex = (currentIndex + direction + galleryImages.length) % galleryImages.length;
+    const img = document.getElementById('lightboxImg');
+    img.src = galleryImages[currentIndex];
+    document.getElementById('counter').textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+  }
+
+  // keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('lightbox').classList.contains('show')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') changeImage(-1);
+    if (e.key === 'ArrowRight') changeImage(1);
+  });
+
+  // ============================================================
+  // PARTICLES
+  (function createParticles() {
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 25; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.width = (Math.random() * 20 + 6) + 'px';
+      p.style.height = p.style.width;
+      p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      container.appendChild(p);
+    }
+  })();
+
+  // ============================================================
+  // INIT
+  renderGallery();
+</script>
+</body>
+</html>
